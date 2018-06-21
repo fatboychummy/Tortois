@@ -141,7 +141,7 @@ local function juaStuff()
   end)
   if custom.serverMode then
     -----------------------------------SERVERMODE
-    server = require(serverLoc)
+    server = require("./"..serverLoc)
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
     connected = {}
@@ -162,7 +162,7 @@ local function juaStuff()
     end)
   else
     ----------------------------------------CLIENTMODE
-    client = require(clientLoc)
+    client = require("./"..clientLoc)
   end
 
   jua.go(function()
