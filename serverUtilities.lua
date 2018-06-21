@@ -9,8 +9,10 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
   for i = 1,max do
     local timeOut = os.startTimer(30)
     while true do
+      mdm.transmit(cnl,cnl,"REPORT")
       local miniTimeOut = os.startTimer(2)
       local event = {os.pullEvent()}
+      print(event[1])
       if event[1] == "timer" then
         if event[2] == timeOut then
           break
