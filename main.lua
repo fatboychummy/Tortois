@@ -146,6 +146,7 @@ local function juaStuff()
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
     connected = {}
+    mod.open(74)
     connected = server.report(mod,74,1,50)
     --Listen for messages
     --[[
