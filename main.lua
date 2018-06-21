@@ -143,6 +143,7 @@ local function juaStuff()
   mod.open(74)
   if custom.serverMode then
     -----------------------------------SERVERMODE
+    mon = custom.monitorName or false
     server = require("/"..serverLoc)
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
