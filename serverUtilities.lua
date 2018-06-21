@@ -17,7 +17,10 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
         if event[2] == timeOut then
           break
         end
-      elseif event[1] == "modem_message" then
+      else
+        os.cancelTimer(miniTimeOut)
+      end
+      if event[1] == "modem_message" then
         print(event[5])
         local a,b = event[5]:find("REPORT")
         if a then
