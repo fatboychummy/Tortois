@@ -20,10 +20,15 @@ funcs.report = function(mdm,cnl,ignoreDistance)
     print(recieve[1],recieve[5])
     if recieve[1] == "modem_message" then
       local a,b = recieve[5]:find("CONNECT"..session)
+      local c,d = recieve[5]:find("REJECT"..session)
       print("CONNECT: ",a,b,recieve[6])
       if recieve[6] <= ignoreDistance and a then
         pass = true
         id = recieve[5]:sub(b+1)
+      end
+      if recieve[6] <= ignoreDistance and c then
+        print("rejected.")
+        return false,false
       end
     end
     if recieve[1] == "timer" then
