@@ -51,7 +51,7 @@ end
 local function writeData(loc)
   local h = fs.open(loc,"w")
   ao("local data = {",h)
-  ao("-----------ServerMode")
+  ao("-----------ServerMode",h)
   ao("  serverMode = false,",h)
   ao("  monitorName = \"empty\",",h)
   ao("  serverWaitTime = 1000,",h)
