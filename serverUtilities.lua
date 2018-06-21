@@ -13,24 +13,34 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
       mdm.transmit(cnl,cnl,"REPORT")
       local miniTimeOut = os.startTimer(2)
       local event = {os.pullEvent()}
-      print(event[1])
       if event[1] == "timer" then
         if event[2] == timeOut then
-          break
+          connecting = false
         end
       else
         os.cancelTimer(miniTimeOut)
       end
       if event[1] == "modem_message" then
-        print(event[5])
         local a,b = event[5]:find("REPORT")
         if a then
-          for i = 1,5 do
-            mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
+          local rejected = false
+          local cID = event[5]:sub(b+1)
+          for i = 1,#ids do
+            if ids[i] == cID then
+              for i = 1,5 do
+                mdm.transmit(cnl,cnl,"REJECT"..cID)
+              end
+              rejected = true
+            end
           end
-          TSLog.connect("Connected to "..tostring(#ids),1,monitor)
-          ids[i] = event[5]:sub(b+1)
-          connecting = false
+          if not rejected then
+            for i = 1,5 do
+              mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
+            end
+            TSLog.connect("Connected to "..tostring(#ids),1,monitor)
+            ids[i] = event[5]:sub(b+1)
+            connecting = false
+          end
         end
       end
     end
