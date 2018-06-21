@@ -15,30 +15,33 @@ local serverLogLoc = "TSLog.lua"
 local mon = false
 local mod = false
 
-
+local function wget(location,fileName)
+  local h1 = http.get(location)
+  local h2 = fs.open(fileName,"w")
+  h2.write(h1.readAll())
+  h1.close()
+  h2.close()
+end
 if not fs.exists("w.lua") then
-  shell.run("wget","https://raw.githubusercontent.com/justync7/w.lua/master/w.lua")
+  wget("https://raw.githubusercontent.com/justync7/w.lua/master/w.lua","w.lua")
 end
 if not fs.exists("r.lua") then
-  shell.run("wget","https://raw.githubusercontent.com/justync7/r.lua/master/r.lua")
-end
-if not fs.exists("k.lua") then
-  shell.run("wget","https://raw.githubusercontent.com/justync7/k.lua/master/k.lua")
+  wget("https://raw.githubusercontent.com/justync7/r.lua/master/r.lua","r.lua")
 end
 if not fs.exists("json.lua") then
   shell.run("pastebin","get","4nRg9CHU","json.lua")
 end
 if not fs.exists("jua.lua") then
-  shell.run("wget","https://raw.githubusercontent.com/justync7/Jua/master/jua.lua")
+  wget("https://raw.githubusercontent.com/justync7/Jua/master/jua.lua","jua.lua")
 end
 if not fs.exists(clientLoc) then
-
+  wget("https://raw.githubusercontent.com/fatboychummy/Tortois/master/serverUtilities.lua",serverLoc)
 end
 if not fs.exists(serverLoc) then
-
+  wget("https://raw.githubusercontent.com/fatboychummy/Tortois/master/clientUtilities.lua",clientLoc)
 end
 if not fs.exists(serverLogLoc) then
-
+  wget("https://raw.githubusercontent.com/fatboychummy/Tortois/master/TSLog.lua",serverLogLoc)
 end
 
 
