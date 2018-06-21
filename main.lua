@@ -143,8 +143,14 @@ local function juaStuff()
   mod.open(74)
   if custom.serverMode then
     -----------------------------------SERVERMODE
-    mon = custom.monitorName or false
-    mon.setTextScale(0.5)
+    mon = peripheral.wrap(custom.monitorName) or false
+    if mon then
+      mon.setBackgroundColor(colors.black)
+      mon.setTextColor(colors.white)
+      mon.clear()
+      mon.setCursorPos(1,1)
+      mon.setTextScale(0.5)
+    end
     server = require("/"..serverLoc)
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
