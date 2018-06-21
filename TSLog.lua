@@ -1,59 +1,51 @@
-local funcs = {}
+--Must be loaded as an api, cannot be "required"
 
-funcs.report = function(mdm,cnl,max,ignore,monitor)
-  TSLog.connect("Begin connection",2,monitor)
-  local ids = {}
-  for i = 1,10 do
-    mdm.transmit(cnl,cnl,"REPORT")
+local writeLine = function(a,mon)
+  local oX,oY = mon.getCursorPos()
+  mon.write(a)
+  mon.setCursorPos(1,oY+1)
+end
+
+info = function(a,mon)
+  if mon then
+    writeLine("[INFO]: "..tostring(a))
+  else
+    print("[INFO]: "..tostring(a))
   end
-  for i = 1,max do
-    local timeOut = os.startTimer(30)
-    while true do
-      mdm.transmit(cnl,cnl,"REPORT")
-      local miniTimeOut = os.startTimer(2)
-      local event = {os.pullEvent()}
-      print(event[1])
-      if event[1] == "timer" then
-        if event[2] == timeOut then
-          break
-        end
-      else
-        os.cancelTimer(miniTimeOut)
-      end
-      if event[1] == "modem_message" then
-        print(event[5])
-        local a,b = event[5]:find("REPORT")
-        if a then
-          mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
-          TSLog.connect("Connected to "..tostring(#ids),1,monitor)
-          ids[i] = event[5]:sub(b+1)
-          break
-        end
-      end
+end
+connect = function(a,pass,mon)
+  a = tostring(a)
+  assert(type(pass) == "number" and pass >= 0 and pass <= 2 and pass%1 == 0,"connect:bad argument #2: must be a whole number between 0 and 2")
+  if mon then
+    if pass == 1 then
+      local oldBG = mon.getBackgroundColor()
+      mon.write("[")
+      mon.setBackgroundColor(colors.green)
+      mon.write("CONNECT")
+      mon.setBackgroundColor(oldBG)
+      mon.writeLine("]: "..a)
+    elseif pass == 0 then
+      local oldBG = mon.getBackgroundColor()
+      mon.write("[")
+      mon.setBackgroundColor(colors.red)
+      mon.write("CONNECT")
+      mon.setBackgroundColor(oldBG)
+      mon.writeLine("]: "..a)
+    elseif pass == 2 then
+      local oldBG = mon.getBackgroundColor()
+      mon.write("[")
+      mon.setBackgroundColor(colors.blue)
+      mon.write("CONNECT")
+      mon.setBackgroundColor(oldBG)
+      mon.writeLine("]: "..a)
+    end
+  else
+    if pass == 1 then
+      print("[CONNECT-APPROVE]: "..a)
+    elseif pass == 0 then
+      print("[CONNECT-REJECT]: "..a)
+    elseif pass == 2 then
+      print("[CONNECT]: "..a)
     end
   end
-  return ids
 end
-funcs.allHome = function(mdm)
-
-end
-funcs.allGo = function(mdm,cnl)
-  for i = 1,10 do
-    mdm.transmit(cnl,cnl,"ALLGO")
-  end
-end
-funcs.allStop = function(mdm,cnl)
-  for i = 1,30 do
-    mdm.transmit(cnl,cnl,"HALT")
-  end
-end
-funcs.tellOneStop = function(mdm,id)
-
-end
-funcs.tellOneGo = function(mdm,id)
-
-end
-funcs.tellOneHome = function(mdm,id)
-
-end
-return funcs
