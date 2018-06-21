@@ -1,6 +1,7 @@
 local funcs = {}
 
 funcs.report = function(mdm,cnl,ignoreDistance)
+  print("Reporting")
   local session = tostring(math.random(1,10000))
   local pass = false
   local timeOut = os.startTimer(30)
