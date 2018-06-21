@@ -114,7 +114,8 @@ else
   error("No modem or the wrong modem name has been supplied.")
 end
 
-
+clientLoc = clientLoc:sub(1,clientLoc:len()-4)
+serverLoc = serverLoc:sub(1,serverLoc:len()-4)
 -----------------------------------------------
 local w = require("w")
 local r = require("r")
