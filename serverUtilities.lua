@@ -25,6 +25,7 @@ funcs.report = function(mdm,cnl,max,ignore)
       end
     end
   end
+  return ids
 end
 funcs.allHome = function(mdm)
 
