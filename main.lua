@@ -34,10 +34,10 @@ end
 if not fs.exists("jua.lua") then
   wget("https://raw.githubusercontent.com/justync7/Jua/master/jua.lua","jua.lua")
 end
-if not fs.exists(clientLoc) then
+if not fs.exists(serverLoc) then
   wget("https://raw.githubusercontent.com/fatboychummy/Tortois/master/serverUtilities.lua",serverLoc)
 end
-if not fs.exists(serverLoc) then
+if not fs.exists(clientLoc) then
   wget("https://raw.githubusercontent.com/fatboychummy/Tortois/master/clientUtilities.lua",clientLoc)
 end
 if not fs.exists(serverLogLoc) then
