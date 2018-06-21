@@ -6,14 +6,14 @@ local writeLine = function(a,mon)
   mon.setCursorPos(1,oY+1)
 end
 
-funcs.info = function(a,mon)
+info = function(a,mon)
   if mon then
     writeLine("[INFO]: "..tostring(a))
   else
     print("[INFO]: "..tostring(a))
   end
 end
-funcs.connect = function(a,pass,mon)
+connect = function(a,pass,mon)
   a = tostring(a)
   assert(pass >= 0 and pass <= 2 and pass%1 == 0,"connect:bad argument #2: must be a whole number between 0 and 2")
   if mon then
