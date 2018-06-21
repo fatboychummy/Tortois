@@ -146,7 +146,9 @@ local function juaStuff()
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
     connected = {}
+    connected = server.report()
     --Listen for messages
+    --[[
     jua.on("modem_message",function(...)
       local recieve = {...}
 
@@ -160,7 +162,7 @@ local function juaStuff()
       elseif tmr == waitTimer then
         waitTimer = os.startTimer(custom.serverWaitTime)
       end
-    end)
+    end)]]
   else
     ----------------------------------------CLIENTMODE
     client = require("/"..clientLoc)
@@ -168,7 +170,7 @@ local function juaStuff()
   end
 
   jua.go(function()
-
+    print("Running")
   end)
 end
 
