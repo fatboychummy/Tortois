@@ -8,7 +8,8 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
   end
   for i = 1,max do
     local timeOut = os.startTimer(30)
-    while true do
+    local connecting = true
+    while connecting do
       mdm.transmit(cnl,cnl,"REPORT")
       local miniTimeOut = os.startTimer(2)
       local event = {os.pullEvent()}
@@ -27,7 +28,7 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
           mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
           TSLog.connect("Connected to "..tostring(#ids),1,monitor)
           ids[i] = event[5]:sub(b+1)
-          break
+          connecting = false
         end
       end
     end
