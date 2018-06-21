@@ -149,6 +149,8 @@ local function juaStuff()
     connected = {}
 
     connected = server.report(mod,74,1,50)
+    TSLog.connect("END CONNECTION ATTEMPTS",0,mon)
+    TSLog.connect("There are "..#connected.." turtles connected",2,mon)
     --Listen for messages
     --[[
     jua.on("modem_message",function(...)
