@@ -146,7 +146,7 @@ local function juaStuff()
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
     connected = {}
-    connected = server.report()
+    connected = server.report(mod,74,1,50)
     --Listen for messages
     --[[
     jua.on("modem_message",function(...)
@@ -166,7 +166,7 @@ local function juaStuff()
   else
     ----------------------------------------CLIENTMODE
     client = require("/"..clientLoc)
-    client.report()
+    client.report(mod,74,50)
   end
 
   jua.go(function()
