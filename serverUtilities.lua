@@ -16,6 +16,7 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
           break
         end
       elseif event[1] == "modem_message" then
+        print(event[5])
         local a,b = event[5]:find("REPORT")
         if a then
           mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
