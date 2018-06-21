@@ -1,6 +1,12 @@
 local funcs = {}
 
 funcs.report = function(mdm,cnl,ignoreDistance)
+  local function bdarg(arg,exp,num)
+    return "report: Bad Argument #"..num.." expected "..exp..", got "..type(arg)
+  end
+  assert(type(mdm) == "table",bdarg(mdm,"table",1))
+  assert(type(cnl) == "number",bdarg(cnl,"number",2))
+  assert(type(ignoreDistance) == "number",bdarg(cnl,"number",3))
   print("Reporting")
   local session = tostring(math.random(1,10000))
   local pass = false
