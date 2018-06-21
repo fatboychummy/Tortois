@@ -19,8 +19,8 @@ funcs.report = function(mdm,cnl,ignoreDistance)
 
     print(recieve[1],recieve[5])
     if recieve[1] == "modem_message" then
-
       local a,b = recieve[5]:find("CONNECT"..session)
+      print("CONNECT: ",a,b,recieve[6])
       if recieve[6] <= ignoreDistance and a then
         pass = true
         id = recieve[5]:sub(b+1)
