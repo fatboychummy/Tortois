@@ -50,17 +50,27 @@ local function ao(a,b)
 end
 local function writeData(loc)
   local h = fs.open(loc,"w")
-  ao("local data = {",h)
-  ao("-----------ServerMode",h)
-  ao("  serverMode = false,",h)
-  ao("  monitorName = \"empty\",",h)
-  ao("  serverWaitTime = 1000,",h)
-  ao("  maxConnections = 5,",h)
-  ao("-----------Both",h)
-  ao("  modemSide = \"right\",",h)
-  ao("  modemIgnoreDistance = 50,",h)
-  ao("}",h)
-  ao("return data",h)
+  if h then
+    local lines = {
+      [1] = "local data = {",
+      [2] = "-----------ServerMode",
+      [3] = "  serverMode = false,",
+      [4] = "  monitorName = \"empty\",",
+      [5] = "  serverWaitTime = 1000,",
+      [6] = "  maxConnections = 5,",
+      [7] = "-----------Both",
+      [8] = "  modemSide = \"right\",",
+      [9] = "  modemIgnoreDistance = 50,",
+      [10] = "}",
+      [11] = "return data",
+    }
+    for i = 1,#lines do
+      ao(lines[i],h)
+    end
+    h.close()
+  else
+    error("Failed to create data file, make sure there is no other file named \"data\".")
+  end
 end
 local function fixData()
   local h = fs.open(storage,"w")
@@ -81,6 +91,7 @@ local function fixData()
   ao(custom.modemIgnoreDistance and "  modemIgnoreDistance = "..tostring(custom.modemIgnoreDistance).."," or "  modemIgnoreDistance = 50,",h)
   ao("}",h)
   ao("return data",h)
+  h.close()
 end
 
 if fs.exists(storage) then
