@@ -164,6 +164,7 @@ local function juaStuff()
   else
     ----------------------------------------CLIENTMODE
     client = require("/"..clientLoc)
+    client.report()
   end
 
   jua.go(function()
