@@ -8,7 +8,7 @@ end
 
 info = function(a,mon)
   if mon then
-    writeLine("[INFO]: "..tostring(a))
+    writeLine("[INFO]: "..tostring(a),mon)
   else
     print("[INFO]: "..tostring(a))
   end
@@ -23,21 +23,21 @@ connect = function(a,pass,mon)
       mon.setBackgroundColor(colors.green)
       mon.write("CONNECT")
       mon.setBackgroundColor(oldBG)
-      mon.writeLine("]: "..a)
+      writeLine("]: "..a,mon)
     elseif pass == 0 then
       local oldBG = mon.getBackgroundColor()
       mon.write("[")
       mon.setBackgroundColor(colors.red)
       mon.write("CONNECT")
       mon.setBackgroundColor(oldBG)
-      mon.writeLine("]: "..a)
+      writeLine("]: "..a,mon)
     elseif pass == 2 then
       local oldBG = mon.getBackgroundColor()
       mon.write("[")
       mon.setBackgroundColor(colors.blue)
       mon.write("CONNECT")
       mon.setBackgroundColor(oldBG)
-      mon.writeLine("]: "..a)
+      writeLine("]: "..a,mon)
     end
   else
     if pass == 1 then
