@@ -10,11 +10,8 @@ funcs.report = function(mdm,cnl,ignoreDistance)
     mdm.transmit(cnl,cnl,"REPORT"..session)
     local recieve = os.pullEvent()
     if recieve[1] == "modem_message" then
-      local a,b = recieve[5]:find(session)
+      local a,b = recieve[5]:find("CONNECT"..session)
       if recieve[6] <= ignoreDistance and a then
-        for i = 1,3 do
-          mdm.transmit(cnl,cnl"CONFIRM"..session)
-        end
         pass = true
         id = recieve[5]:sub(b+1)
       end
