@@ -156,7 +156,7 @@ local function juaStuff()
     TSLog.info("Logger Initiated",mon)
     connected = {}
 
-    connected = server.report(mod,74,1,50)
+    connected = server.report(mod,74,1,50,mon)
     TSLog.connect("END CONNECTION ATTEMPTS",0,mon)
     TSLog.connect("There are "..#connected.." turtles connected",2,mon)
     --Listen for messages
