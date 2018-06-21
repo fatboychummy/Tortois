@@ -1,6 +1,7 @@
 local funcs = {}
 
-funcs.report = function(mdm,cnl,max,ignore)
+funcs.report = function(mdm,cnl,max,ignore,monitor)
+  TSLog.connect("Begin connection",2,monitor)
   local ids = {}
   for i = 1,10 do
     mdm.transmit(cnl,cnl,"REPORT")
@@ -18,7 +19,7 @@ funcs.report = function(mdm,cnl,max,ignore)
         local a,b = event[5]:find("REPORT")
         if a then
           mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
-          print("Connected to "..tostring(#ids))
+          TSLog.connect("Connected to "..tostring(#ids))
           ids[i] = event[5]:sub(b+1)
           break
         end
