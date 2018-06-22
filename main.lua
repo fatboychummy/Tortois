@@ -144,7 +144,7 @@ local function juaStuff()
   if custom.serverMode then
     -----------------------------------SERVERMODE
     mon = peripheral.wrap(custom.monitorName) or false
-  local maxC = custom.maxConnections or 1
+    local maxC = custom.maxConnections or 1
     if mon then
       mon.setBackgroundColor(colors.black)
       mon.setTextColor(colors.white)
@@ -158,25 +158,31 @@ local function juaStuff()
     TSLog.info("Logger Initiated",mon)
     connected = {}
 
-    connected = server.report(mod,74,maxC,50,mon)
-    TSLog.connect("END CONNECTION ATTEMPTS",0,mon)
-    TSLog.connect("There are "..#connected.." turtles connected",2,mon)
-    --Listen for messages
-    --[[
-    jua.on("modem_message",function(...)
-      local recieve = {...}
 
-    end)
-    jua.on("timer",function(tmr)
-      if tmr == startTimer then
-        TSLog.connect("Initial connection attempt.",2,mon)
-        server.allStop()
-        server.report()
-        waitTimer = os.startTimer(custom.serverWaitTime)
-      elseif tmr == waitTimer then
-        waitTimer = os.startTimer(custom.serverWaitTime)
+    jua.on("modem_message",function(...)
+      local event = {...}
+      local a,b = event[5]:find("REPORT")
+      if a and #connected < maxC then
+        local rejected = false
+        local cID = event[5]:sub(b+1)
+        for i = 1,#connected do
+          if connected[i] == cID then
+            mdm.transmit(cnl,cnl,"CONNECT"..cID..i)
+            TSLog.connect("Reconnected "..cID,2,monitor)
+            rejected = true
+          end
+        end
+        if not rejected then
+          mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#connected+1))
+          TSLog.connect("Connected to "..tostring(#connected+1),1,monitor)
+          connected[i] = event[5]:sub(b+1)
+          connecting = false
+        end
       end
-    end)]]
+      TSLog.connect("There are "..#connected.." turtles connected",2,mon)
+    end)
+
+
   else
     ----------------------------------------CLIENTMODE
     client = require("/"..clientLoc)
