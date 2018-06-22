@@ -136,11 +136,12 @@ local connected = false
 
 
 local function juaStuff()
+  local cnl = 74
   jua.on("terminate",function()
     printError("Terminated")
     jua.stop()
   end)
-  mod.open(74)
+  mod.open(cnl)
   if custom.serverMode then
     -----------------------------------SERVERMODE
     mon = peripheral.wrap(custom.monitorName) or false
@@ -186,7 +187,7 @@ local function juaStuff()
   else
     ----------------------------------------CLIENTMODE
     client = require("/"..clientLoc)
-    local ID = client.report(mod,74,50)
+    local ID = client.report(mod,cnl,50)
     print("Our ID is:",ID)
   end
 
