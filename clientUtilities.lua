@@ -12,7 +12,7 @@ funcs.report = function(mdm,cnl,ignoreDistance)
   local pass = false
   local timeOut = os.startTimer(30)
   local id = 0
-  while true do
+  while not pass do
     local mTimeOut = os.startTimer(1)
     mdm.transmit(cnl,cnl,"REPORT"..session)
     local recieve = {os.pullEvent()}
@@ -28,7 +28,7 @@ funcs.report = function(mdm,cnl,ignoreDistance)
       end
       if recieve[6] <= ignoreDistance and c then
         print("rejected.")
-        return false,false
+        return false
       end
     end
     if recieve[1] == "timer" then
@@ -39,7 +39,7 @@ funcs.report = function(mdm,cnl,ignoreDistance)
       os.cancelTimer(mTimeOut)
     end
   end
-  return id,pass
+  return id
 end
 funcs.farm = function(type)
 
