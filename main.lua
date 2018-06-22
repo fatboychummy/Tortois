@@ -169,13 +169,13 @@ local function juaStuff()
         for i = 1,#connected do
           if connected[i] == cID then
             mod.transmit(cnl,cnl,"CONNECT"..cID..i)
-            TSLog.connect("Reconnected "..cID,2,monitor)
+            TSLog.connect("Reconnected "..cID,2,mon)
             rejected = true
           end
         end
         if not rejected then
           mod.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#connected+1))
-          TSLog.connect("Connected to "..tostring(#connected+1),1,monitor)
+          TSLog.connect("Connected to "..tostring(#connected+1),1,mon)
           connected[#connected+1] = event[5]:sub(b+1)
           connecting = false
         end
