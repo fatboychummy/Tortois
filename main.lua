@@ -133,10 +133,10 @@ local mode = "startup"
 local startupTimer = os.startTimer(7)
 local waitTimer = ""
 local connected = false
-
+local cnl = 74
 
 local function juaStuff()
-  local cnl = 74
+
   jua.on("terminate",function()
     printError("Terminated")
     jua.stop()
