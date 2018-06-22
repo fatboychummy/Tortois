@@ -3,9 +3,6 @@ local funcs = {}
 funcs.report = function(mdm,cnl,max,ignore,monitor)
   TSLog.connect("Begin connection",2,monitor)
   local ids = {}
-  for i = 1,10 do
-    mdm.transmit(cnl,cnl,"REPORT")
-  end
   for i = 1,max do
     local timeOut = os.startTimer(30)
     local connecting = true
@@ -29,15 +26,18 @@ funcs.report = function(mdm,cnl,max,ignore,monitor)
             if ids[i] == cID then
               for i = 1,5 do
                 mdm.transmit(cnl,cnl,"REJECT"..cID)
+                os.sleep()
               end
+              TSLog.connect("Rejected "..cID,0,monitor)
               rejected = true
             end
           end
           if not rejected then
             for i = 1,5 do
-              mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids))
+              mdm.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#ids+1))
+              os.sleep()
             end
-            TSLog.connect("Connected to "..tostring(#ids),1,monitor)
+            TSLog.connect("Connected to "..tostring(#ids+1),1,monitor)
             ids[i] = event[5]:sub(b+1)
             connecting = false
           end
@@ -51,7 +51,7 @@ funcs.allHome = function(mdm)
 
 end
 funcs.allGo = function(mdm,cnl)
-  for i = 1,10 do
+  for i = 1,30 do
     mdm.transmit(cnl,cnl,"ALLGO")
   end
 end
