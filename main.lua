@@ -163,19 +163,24 @@ local function juaStuff()
     jua.on("modem_message",function(...)
       local event = {...}
       local a,b = event[5]:find("REPORT")
-      if a and #connected < maxC then
+      if a then
         local rejected = false
         local cID = event[5]:sub(b+1)
         for i = 1,#connected do
           if connected[i] == cID then
-            mod.transmit(cnl,cnl,"CONNECT"..cID..i)
-            TSLog.connect("Reconnected "..cID,2,mon)
+            mod.transmit(cnl,cnl,"CONNECT"..cID..tostring(i))
+            TSLog.connect("Reconnected "..tostring(i).."("..cID..")",2,mon)
             rejected = true
           end
         end
+        if #connected < maxC then
+          mod.transmit(cnl,cnl,"REJECT"..cID)
+          TSLog.connect("Rejected "..cID,0,mon)
+          rejected = true
+        end
         if not rejected then
           mod.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#connected+1))
-          TSLog.connect("Connected to "..tostring(#connected+1),1,mon)
+          TSLog.connect("Connected to "..tostring(#connected+1).."("..cID..")",1,mon)
           connected[#connected+1] = event[5]:sub(b+1)
           connecting = false
         end
