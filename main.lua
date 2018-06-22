@@ -176,7 +176,7 @@ local function juaStuff()
         if not rejected then
           mod.transmit(cnl,cnl,"CONNECT"..event[5]:sub(b+1)..tostring(#connected+1))
           TSLog.connect("Connected to "..tostring(#connected+1),1,monitor)
-          connected[i] = event[5]:sub(b+1)
+          connected[#connected+1] = event[5]:sub(b+1)
           connecting = false
         end
       end
