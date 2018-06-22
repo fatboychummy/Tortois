@@ -144,6 +144,7 @@ local function juaStuff()
   if custom.serverMode then
     -----------------------------------SERVERMODE
     mon = peripheral.wrap(custom.monitorName) or false
+  local maxC = custom.maxConnections or 1
     if mon then
       mon.setBackgroundColor(colors.black)
       mon.setTextColor(colors.white)
@@ -151,12 +152,13 @@ local function juaStuff()
       mon.setCursorPos(1,1)
       mon.setTextScale(0.5)
     end
+
     server = require("/"..serverLoc)
     os.loadAPI(serverLogLoc)
     TSLog.info("Logger Initiated",mon)
     connected = {}
 
-    connected = server.report(mod,74,1,50,mon)
+    connected = server.report(mod,74,maxC,50,mon)
     TSLog.connect("END CONNECTION ATTEMPTS",0,mon)
     TSLog.connect("There are "..#connected.." turtles connected",2,mon)
     --Listen for messages
@@ -178,7 +180,8 @@ local function juaStuff()
   else
     ----------------------------------------CLIENTMODE
     client = require("/"..clientLoc)
-    client.report(mod,74,50)
+    local ID = client.report(mod,74,50)
+    print("Our ID is:",ID)
   end
 
   jua.go(function()
